@@ -9,7 +9,6 @@
 
 #+END_SRC
 
-
 * Org
 ** org bullets
 #+BEGIN_SRC emacs-lisp
@@ -18,8 +17,17 @@
 :config
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
 #+END_SRC
+   
+** basic 
+#+BEGIN_SRC emacs-lisp
+(setq org-src-windows-setup 'curent-window)
 
+#+END_SRC
+** subword
+#+BEGIN_SRC emacs-lisp
+(global-subword-mode 1)
 
+#+END_SRC
 * which-key
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
@@ -65,6 +73,82 @@
 :init (smex-initialize)
 :bind
 ("M-x" . smex))
+
+
+#+END_SRC
+** swithc buffers 
+#+BEGIN_SRC emacs-lisp
+(global-set-key
+ (kbd "C-x C-b") 'ido-switch-buffer)
+
+#+END_SRC
+* buffers
+** enable ibuffer
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x b") 'ibuffer)
+
+#+END_SRC
+* avy
+#+BEGIN_SRC emacs-lisp
+(use-package avy
+:ensure t
+:bind
+("M-s" . avy-goto-char))
+
+#+END_SRC
+* config edit/reload
+** edit
+#+BEGIN_SRC emacs-lisp
+(defun config-visit ()
+(interactive)
+(find-file "~/.emacs.d/config.org"))
+(global-set-key (kbd "C-c e") 'config-visit)
+#+END_SRC
+** reload
+#+BEGIN_SRC emacs-lisp
+(defun config-reload ()
+(interactive)
+(org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+(global-set-key (kbd "C-c r") 'config-reload)
+
+#+END_SRC
+* rainbow
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-mode
+:ensure t
+:init (rainbow-mode 1))
+
+
+#+END_SRC
+* switch window
+#+BEGIN_SRC emacs-lisp
+(use-package switch-window
+:ensure t
+:config
+(setq switch-window-input-style 'minibuffer)
+(setq switch-window-increase 4)
+(setq switch-window-threshold 2)
+(setq switch-window-shortcut-style 'qwerty)
+(setq switch-window-qwerty-shortcuts
+'("a" "s" "d" "f" "j" "k" "l"))
+ :bind
+([remap other-window] . switch-window))
+#+END_SRC
+* window splitting 
+#+BEGIN_SRC emacs-lisp
+(defun split-and-follow-horizontally ()
+(interactive)
+(split-window-below)
+(balance-windows)
+(other-window 1))
+(global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+
+(defun split-and-follow-vertically ()
+(interactive)
+(split-window-right)
+(balance-windows)
+(other-window 1))
+(global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
 
 
 #+END_SRC
